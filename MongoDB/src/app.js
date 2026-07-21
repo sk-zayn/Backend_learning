@@ -35,6 +35,28 @@ app.get("/notes", async (req, res)=>{
     })
 })
 
+app.delete("/notes/:id", async (req, res)=>{
+  const id = req.params.id;
+  // findOneAndDelete -> needs a param to delete something on that base
+  await noteModel.findOneAndDelete({
+    _id: id,
+  });
+  res.status(200).json({
+    message: "Note deletes successfully",
+  });
+})
+
+app.patch("/notes/:id", async (req, res)=>{
+  const id = req.params.id;
+  const description = req.body.description;
+  // findOneAndUpdate() needs 2 param 1) to know on which basis 2)to updata
+  await noteModel.findOneAndUpdate({ _id: id }, { description: description });
+
+  res.status(200).json({
+    message: "Note updated successfully",
+  });
+})
+
 
 
 module.exports = app
